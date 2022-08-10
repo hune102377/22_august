@@ -1,0 +1,53 @@
+---
+title: "08_review_05"
+author: "LJH"
+date: "2022-08-10"
+output: html_document
+---
+
+## **통계적 추정과 가설검정**\
+\
+\
+
+##### **신뢰수준과 신뢰구간** \
+**신뢰수준** \
+모수가 추정한 구간 안에 있을 것이라 믿을 수 있는 정도 \
+**신뢰구간** \
+신뢰도에 따라 모수가 포함될 것이라 믿을 수 있는 구간 \
+\
+
+## **<span style='background-color:#ffdce0'>가설검정</span>** \
+
+**귀무가설(H1)**
+: 기존의 주장 \
+\
+**대립가설(H2)** \
+: 새로운 주장 \
+\
+\
+
+![가설검정의 오류](./Image/08_05_01.png)\
+\
+**<span style='background-color:#ffdce0'>가설검정의 오류</span>** \
+**<span style='background-color:#ffdce0'> 유의확률</span>** \
+**<span style='background-color:#ffdce0'>- p-value가 a보다 작다. \ (귀무가설을 기각할 증거가 충분)\ = (새로운 주장이 유의미함)</span>** \
+\
+
+#### **binom.test 함수** \
+관측값과 시도횟수를 알 때, 이 결과의 일반적인 결과값을 정리하고 싶을 때 \
+binom.test(x, n, p) \
+\
+
+#### **shapiro.test( 함수** \
+데이터의 특정 컬럼이 정규성을 만족하는지 알아 보고 싶을 때, 사용하는 함수 \
+binom.test(x, n, p) \
+\
+
+#### **qqnorem 함수** \
+좌표평면의 두개의 축에 있는 서로 다른 데이터의 분위수를 그려서 비교하는 함수 \
+\
+
+
+
+
+
