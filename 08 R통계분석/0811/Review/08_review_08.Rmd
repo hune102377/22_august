@@ -1,48 +1,18 @@
 ---
-title: "08_review_08"
-author: "LJH"
-date: "2022-08-11"
-output: html_document
+title: "R Notebook"
+output: html_notebook
 ---
 
-## **𝜒^2 분포와 𝜒^2 검정** \
-\
-\
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
-#### **독립성검정과 적합성검정**\
-교차표를 통해 범주형으로 수집된 두 변수의 조합별 빈도 파악 \
-- **독립성 검정** \
-두 범주형 변수 간의 관련성이 모집단에서 존재하는지 검정 \
-- **적합성 검정** \
-두 개 이상의 범주를 갖는 범주형 변수의 범주별 비율의 분포를 관측 \
-관측된 범주별 빈도를 모집단에서 기대되는 비율 분포가 존재하는지 검정 \
-\
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
 
-
-#### **카이스퀘어 검정**\
-교차표상의 응답 빈도를 바탕으로 범주형 변수 간의 관련성 검정 \
-\
-
-#### **통계적 가설검정**\
-**관측빈도** \
-실제로 관측된 값. 교차표상의 셀값\
-**기대빈도** \
-귀무가설이 참이라는 전체하의 우리가 기대할 수 있는 빈도 \
-**기대빈도의 계산** \
-귀무가설이 참이라면 안전벨트 착용 여부와 관계없이 두 집단 모두에게서 환자의 상태별 비율이 동일하게 나타날 것 \
-\
-
-#### **카이스퀘어 검정 절차**
-**𝜒^2 − value** \
-기대빈도와 관측빈도의 비교를 통해 계산되는 값 \
-**검정** \
-표본으로부터 산출된 𝜒^2값이 귀무가설이 참이라는 가정하에 \
-𝜒^2분포상에서 얼마나 나타나기 어려운 희박한 경우인지 혹은 흔하게 관찰될 수 있는 경우인지 평가 \
-\
-
-#### **
-
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+plot(cars)
 ```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
