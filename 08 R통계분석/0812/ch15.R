@@ -1,110 +1,79 @@
-library(car)
-data(Prestige)
-df <- Prestige
+df <- mtcars
+str(df)
+df <-  mtcars[, 1:6]
 str(df)
 
-table(df$type)
-barplot(table(df$type),
-        col = 'orange')
+plot(df, col = 'green', pch ='+')
 
-hist(df$income,
-     col = 'tomato',
-     breaks = 20)
+cor(df)
 
-shapiro.test(df$income)
+install.packages('corrgram')
+library(corrgram)
+corrgram(df)
 
-hist(df$education,
-     col = 'pink',
-     breaks = 20)
 
-hist(df$women,
-     col = 'violet',
-     breaks = 20)
-
-hist(df$prestige,
-     col = 'cyan',
-     breaks = 20)
-
-shapiro.test(df$prestige)
-
-plot(df[, -(5:6)],
-     pch = '+',
-     col = 'steelblue')
-
-lm(income ~ education, data = df)
-
-cor(df[,-(5:6)])
-
-model <-lm(income ~ education, data = df)
-summary(model)
-
-plot(income ~ education, data = df,
-     xlim = c(0, 16),
-     ylim = c(-5000, 25000),
-     col = 'skyblue',
-     pch = '+')
-abline(model,
-       col = adjustcolor('tomato', alpha = 0.8))
-
-model_02 <-lm(income ~ women, data = df)
-summary(model_02)
-
-plot(income ~ women, data = df,
-     col = 'violet',
-     pch = '+')
-abline(model_02,
-       col = adjustcolor('tomato', alpha = 0.8))
-
-model_03 <-lm(income ~ prestige, data = df)
-summary(model_03)
-
-plot(income ~ prestige, data = df,
-     col = 'tomato',
-     xlim = c(0, 100),
-     ylim = c(-5000, 25000),
-     pch = '+')
-abline(model_03,
-       col = adjustcolor('tomato', alpha = 0.8))
-
-# 다중회귀분선
-model <-  lm(income ~., data = df)
-summary(model)
-
-# 교육과 임금과의 상관관계가 없어졌다
-# 교육과 명성 사이의 관계를 고려했기 때문
-
-model <-  lm(income ~ education + women, data = df)
-summary(model)
-
-model <-  lm(income ~ education + prestige, data = df)
-summary(model)
-
-model <-  lm(income ~ women + prestige, data = df)
+# 결정계수 R^2 선형회귀식의 설명력 지표
+# R^2 = 0 : 독립변수와 종속변수 간의 선형 관계가 존재하지 않음
+# R^2 = 1 : 독립변수와 종속변수 간의 선형 관계가 존재함
+model <- lm(mpg ~., data = df)
 summary(model)
 
 
-library(stargazer)
-stargazer(model, type = 'text')
+# Adjusted R^2
+# R^2은 독립변수의 개수가 증가하면 항상 값이 증가하니까 이 부분을 조정함
 
-par(mfrow = c(2,2))
-plot(model)
-par(mflow = c(1,1))
+# AIC 지표
+# 일반적으로 AIC 값이 작을수록 더 적은 개수의 파라미터로 적절한 적합도를 달성하고 있음
 
-model <-  lm(income ~ education , data = df)
-plot(income ~ education, data = df,
-     col = 'skyblue',
-     pch = 16)
+# mtcars 데이터셋에서 후진서택법으로 회귀모델 구축
+mtcars.lm <-  lm(mpg ~ hp + wt + disp + drat, data = mtcars)
+mtcars.lm
+mod.selected <- step(mtcars.lm, direction='backward')
+summary(mod.selected)
 
-model <- lm(income ~ education + I(education^2),
-data =df )
+# 연습문제
+# Kaggle House Price 데이터셋에서
+# 다중 선형 회귀의 변수 선택을 통해
+# 최적의 독립 변수 조합을 찾아보시오.
+# 1. 전진선택법으로 찾은 조합은? R^2, Adjusted R^2 값은?
+# 2. 후진선택법으로 찾은 조합은? R^2, Adjusted R^2 값은?
+
+# 데이터 불러오기
+data.house <- read.csv('./House_Price.csv')
+
+str(data.house)
+
+# 수치형 데이터만 추출
+is.num <-  c()
+for (i in 1:80) {
+  is.num[i] <- is.numeric(data.house[,i])
+}
+data.house_num <-  data.house[,is.num]
+data.house_num <-  data.house_num[, -1]
+data.house_num <-  data.house_num[complete.cases(data.house_num),]
+data.house_num.lm <- lm(SalePrice ~ ., data = data.house_num)
+
+# 1. 전진선택법으로 찾은 조합은? R^2, Adjusted R^2 값은?
+data.house.lm.front <- step(data.house_num.lm, direction='forward')
+summary(data.house.lm.front)
+
+
+# 2. 후진선택법으로 찾은 조합은? R^2, Adjusted R^2 값은?
+data.house.lm.back <- step(data.house_num.lm, direction='backward')
+summary(data.house.lm.back)
+
+df <- InsectSprays
+df
+model <- lm(count ~ spray, data = df)
 summary(model)
 
-library(dplyr)
-model <- lm(income ~ education + I(education^2),
-            data =df )
-plot(income ~ education, data = df,
-     col = 'skyblue', pch ='+')
-with(df,
-     lines(arrange(data.frame(education, fitted(model)),
-                   education),
-           lty = 1, lwd = 3, col ='tomato'))
+contrasts(df$spray)
+
+df <-  mtcars[, 1:6]
+
+df$cyl <- factor(df$cyl)
+table(df$cyl)
+
+lm(mpg ~., data = df)
+model <- lm(mpg ~., data = df)
+summary(model)
