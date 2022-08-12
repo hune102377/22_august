@@ -1,0 +1,10 @@
+1. bro	#00492b
+2. dk	#0ec7B5
+3. drx	#2f5ff7
+4. gen	#aa8a00
+5. hle	#ff6b01
+6. kdf	#e73312
+7. kt	#ff0a07
+8. lsb	#eccf47
+9. ns	#de2027
+10. t1	#e4002b

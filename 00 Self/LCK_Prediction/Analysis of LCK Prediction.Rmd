@@ -1,0 +1,113 @@
+---
+title: "Analysis of LCK Prediction"
+author: "LJH"
+date: "2022-08-11"
+output: html_document
+---
+\
+# **LCK 승부예측과 결과 간의 분석** \
+\
+
+## 네이버 e스포츠 승부예측에서 수집 가능한 데이터를
+## 활용해서 다양한 분석을 해보자.\
+\
+
+### **목차**
+#### 1. 기본 데이터 정리 \
+#### 2. 사람들은 얼마나 예측을 잘하는가? \
+#### 3. 기대를 많이 받는 팀은 그만큼 승리를 많이 하는가? \
+#### 4. 가장 업셋을 많이 한 팀은 어디인가? \
+#### 5. summer 데이터와 합친 값을 비교 \
+#### 6. summer 데이터와 비교 \
+
+\
+
+### **1. 기본 데이터 정리** \
+```{r box1, echo = F}
+data.spring <- read.csv('./Data/LCK_2022_Spring.csv') # 필요한 데이터 읽어오기
+data.spring.ranking <- c('T1', 'GEN', 'DK', 'DRX', 'KDF', 'BRO', 'KT', 'NS', 'LSB', "HLE")
+data.spring.col <- c('#e4002b', '#aa8a00', '#0ec7B5', '#e73312', '#00492b', '#ff0a07', '#de2027', '#eccf47', '#eccf47', "#ff6b01")
+# 데이터 정리
+data.spring$날짜 <-as.Date(data.spring$날짜, format = "%m/%d")
+data.spring$승리.예측이.높은.팀 <- as.factor(data.spring$승리.예측이.높은.팀)
+data.spring$승리팀 <- as.factor(data.spring$승리팀)
+data.spring$예측.성공.여부 <- factor(data.spring$예측.성공.여부, labels = c('실패', '성공'))
+# 데이터 확인
+str(data.spring)
+```
+\
+데이터를 살펴보면 Spring에는 결승전까지 합쳐 총 94번의 승부예측이 있었다 \
+\
+```{r box2}
+# 결측치 확인
+install.packages('VIM')
+library(VIM)
+aggr(data.spring)
+```
+\
+다만 2022. 03. 16 에 진행된 젠지 vs 프레딧 브리온 경기에서 프레딧 브리온이 코로나로 인해 경기를 진행하지 못하였다. \
+이 경기는 승부예측은 진행되었지만 부전승으로 결과가 나타났기 때문에 앞으로의 분석에서는 이 경기를 제외하고 분석하기로 한다. \
+\
+
+```{r box3, echo = F}
+data.spring <- na.omit(data.spring)
+str(data.spring)
+```
+\
+해당 경기를 제외한 나머지의 93 경기에 만 분석해보자.\
+\
+
+### **2. 사람들은 얼마나 승부 예측을 잘할까?** \
+```{r box4, echo = F}
+
+plot(data.spring$예측.성공.여부,
+     main = '예측 성공 여부',
+     xlab = '성공 여부',
+     ylab = '빈도 수',
+     col = c('tomato', 'cyan'),
+     ylim = c(0,70)
+)
+
+prop.table(table(data.spring$예측.성공.여부))
+     
+```
+\
+전체 범위에서 승부예측에 대한 확률은 \
+성공할 확률이 72.04% \
+실패할 확률이 27.95% 로 \
+성공할 확률이 더 높지만 실패할 확률도 무시할 수준은 아니었다. \
+\
+
+```{r box5, echo = F}
+dtemp <-  data.spring$예측.성공.여부 %>%
+  group_by(data.spring.ranking)
+plot(data.spring$예측.성공.여부,
+     main = '예측 성공 여부',
+     xlab = '성공 여부',
+     ylab = '빈도 수',
+     col = c('tomato', 'cyan'),
+     ylim = c(0,70)
+)
+
+prop.table(table(data.spring$예측.성공.여부))
+     
+```
+\
+
+### **3. 기대를 많이 받는 팀은 그만큼 승리를 많이 하는가?** \
+```{r box4, echo = F}
+
+hist( data.spring$예측.차, 
+)
+     
+```
+
+```{r}
+plot(data.spring)
+```
+
+\
+\
+\
+*자료출처* \
+*NAVER e스포츠 승부예측 : https://game.naver.com/esports/prediction/list/lck_2022_summer* \
