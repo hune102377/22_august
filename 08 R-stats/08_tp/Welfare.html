@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="LJH">
+
+<title>Analysis of Welfare for the Disabled</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="Welfare_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Welfare_files/libs/quarto-html/quarto.js"></script>
+<script src="Welfare_files/libs/quarto-html/popper.min.js"></script>
+<script src="Welfare_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Welfare_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Welfare_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Welfare_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Welfare_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Welfare_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Welfare_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analysis of Welfare for the Disabled</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>LJH </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="장애유형별-정부-지원-만족도-분석" class="level2">
+<h2 class="anchored" data-anchor-id="장애유형별-정부-지원-만족도-분석"><strong>장애유형별 정부 지원 만족도 분석</strong></h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figure class="figure">
+<img src="%EC%9D%B4%EC%A0%84_%EC%9E%90%EB%A3%8C.png" title="장애등록 후 지원" class="img-fluid figure-img">
+</figure>
+<p></p><figcaption class="figure-caption">이전 수업 자료</figcaption><p></p>
+</figure>
+</div>
+<hr>
+<p>SQL 수업에서 사용했었던 장애등록 후 지원에 대한 설문지 그래프로<br>
+장애의 유형을 고려하지 않고 단순히 전체 응답 비율만 사용했었다.<br>
+장애 유형에 따른 응답의 차이가 존재할까?&nbsp;<br>
+있다면 그 이유는 무엇일까?&nbsp;</p>
+<hr>
+<section id="데이터-정리" class="level3">
+<h3 class="anchored" data-anchor-id="데이터-정리">1. <strong>데이터 정리</strong></h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>         장애유형별 매우.많음 약간.받고.있음 별로.받지.못하고.있음
+1                총       3.6           32.2                  49.0
+2          지체장애       2.4           26.3                  54.5
+3        뇌병변장애       6.3           37.0                  43.3
+4          시각장애       2.6           28.4                  51.5
+5          청각장애       2.6           33.0                  48.4
+6          언어장애       3.2           33.4                  55.6
+7          지적장애       4.8           52.5                  34.1
+8        자폐성장애       5.8           52.4                  30.7
+9          정신장애      11.2           49.1                  31.2
+10         신장장애       9.6           47.7                  34.3
+11         심장장애       0.0           37.6                  53.7
+12       호흡기장애       4.1           44.2                  41.5
+13           간장애       2.8           34.5                  36.3
+14         안면장애       0.0           31.4                  47.3
+15    장루‧요루장애       4.5           25.6                  52.6
+16 뇌전증(간질)장애       7.6           59.0                  26.5
+   전혀.받지.못하고.있음
+1                   15.2
+2                   16.9
+3                   13.4
+4                   17.5
+5                   16.0
+6                    7.7
+7                    8.6
+8                   11.2
+9                    8.5
+10                   8.5
+11                   8.7
+12                  10.2
+13                  26.5
+14                  21.3
+15                  17.3
+16                   6.8</code></pre>
+</div>
+</div>
+<hr>
+<p>설문조사는 장애 유형을 분류별로 구분해두고<br>
+<strong>매우 많음 / 약간 받고 있음 / 별로 받지 못하고 있음 / 전혀 받지 못하고 있음</strong><br>
+으로 나뉘어 있으며 비율로 이미 계산되어있다.<br>
+비중만으론 카이제곱검정이 불가능함으로 추가적인 데이터가 필요하다.</p>
+<hr>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>         장애유형별      계
+1                총 2494460
+2          지체장애 1295608
+3        뇌병변장애  252825
+4          시각장애  252779
+5          청각장애   18275
+6          언어장애  184355
+7          지적장애  251543
+8        자폐성장애   19524
+9          정신장애   96963
+10         신장장애   70434
+11         심장장애    6401
+12       호흡기장애   12445
+13           간장애    9668
+14         안면장애    2689
+15    장루‧요루장애   13867
+16 뇌전증(간질)장애    7084</code></pre>
+</div>
+</div>
+<hr>
+<p>비율 문제를 해결하기 위해 위의 설문조사가 모집단을 대표한다는<br>
+가정을 하고 같은 해의 <strong>장애유형별 인구 수 데이터</strong>를 추가한다.</p>
+<hr>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>         장애유형별      계 매우.많음 약간.받고.있음 별로.받지.못하고.있음
+1            간장애    9668       271           3335                  3509
+2        뇌병변장애  252825     15928          93545                109473
+3  뇌전증(간질)장애    7084       538           4180                  1877
+4          시각장애  252779      6572          71789                130181
+5          신장장애   70434      6762          33597                 24159
+6          심장장애    6401         0           2407                  3437
+7          안면장애    2689         0            844                  1272
+8          언어장애  184355      5899          61575                102501
+9        자폐성장애   19524      1132          10231                  5994
+10    장루‧요루장애   13867       624           3550                  7294
+11         정신장애   96963     10860          47609                 30252
+12         지적장애  251543     12074         132060                 85776
+13         지체장애 1295608     31095         340745                706106
+14         청각장애   18275       475           6031                  8845
+15               총 2494460     89801         803216               1222285
+16       호흡기장애   12445       510           5501                  5165
+   전혀.받지.못하고.있음
+1                   2562
+2                  33879
+3                    482
+4                  44236
+5                   5987
+6                    557
+7                    573
+8                  14195
+9                   2187
+10                  2399
+11                  8242
+12                 21633
+13                218958
+14                  2924
+15                379158
+16                  1269</code></pre>
+</div>
+</div>
+<hr>
+<p>두 데이터를 합치고 각 행의 응답 비율을 인원 수와 곱하여<br>
+응답 수로 구성된 새로운 데이터를 생성한다.</p>
+<hr>
+<p><br>
+<img src="%EC%9E%A5%EC%95%A0%EC%9D%B8_%EB%B6%84%EB%A5%98.png" title="장애 유형별 분류" class="img-fluid" alt="장애 유형별 분류"></p>
+<hr>
+<p>또한 소분류로만 구분되어 있던 장애 유형을 기준에 따른 대분류와 중분류로 추가해준다.</p>
+<hr>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>      대분류        중분류       장애유형별      계 매우.많음 약간.받고.있음
+1  신체.장애 신체내부.장애           간장애    9668       271           3335
+2  신체.장애 신체내부.장애         신장장애   70434      6762          33597
+3  신체.장애 신체내부.장애         심장장애    6401         0           2407
+4  신체.장애 신체내부.장애    장루‧요루장애   13867       624           3550
+5  신체.장애 신체내부.장애       호흡기장애   12445       510           5501
+6  신체.장애 신체외부.장애       뇌병변장애  252825     15928          93545
+7  신체.장애 신체외부.장애 뇌전증(간질)장애    7084       538           4180
+8  신체.장애 신체외부.장애         시각장애  252779      6572          71789
+9  신체.장애 신체외부.장애         안면장애    2689         0            844
+10 신체.장애 신체외부.장애         언어장애  184355      5899          61575
+11 신체.장애 신체외부.장애         지체장애 1295608     31095         340745
+12 신체.장애 신체외부.장애         청각장애   18275       475           6031
+13 정신.장애     발달.장애       자폐성장애   19524      1132          10231
+14 정신.장애     발달.장애         지적장애  251543     12074         132060
+15 정신.장애      정신장애         정신장애   96963     10860          47609
+16        총            총               총 2494460     89801         803216
+   별로.받지.못하고.있음 전혀.받지.못하고.있음
+1                   3509                  2562
+2                  24159                  5987
+3                   3437                   557
+4                   7294                  2399
+5                   5165                  1269
+6                 109473                 33879
+7                   1877                   482
+8                 130181                 44236
+9                   1272                   573
+10                102501                 14195
+11                706106                218958
+12                  8845                  2924
+13                  5994                  2187
+14                 85776                 21633
+15                 30252                  8242
+16               1222285                379158</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="카이제곱-분석" class="level2">
+<h2 class="anchored" data-anchor-id="카이제곱-분석">2. 카이제곱 분석</h2>
+<section id="대분류와-만족도-간의-카이제곱-분석" class="level4">
+<h4 class="anchored" data-anchor-id="대분류와-만족도-간의-카이제곱-분석">2.1 대분류와 만족도 간의 카이제곱 분석</h4>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                       장애유형
+만족도               신체적.장애 정신적.장애
+  매우.많음                   68674       24066
+  약간.받고.있음             627099      189900
+  별로.받지.못하고.있음     1103819      122022
+  전혀.받지.못하고.있음      328021       32062</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                       장애유형
+만족도               신체적.장애 정신적.장애     Sum
+  매우.많음                   68674       24066   92740
+  약간.받고.있음             627099      189900  816999
+  별로.받지.못하고.있음     1103819      122022 1225841
+  전혀.받지.못하고.있음      328021       32062  360083
+  Sum                       2127613      368050 2495663</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       장애유형
+만족도               신체적.장애 정신적.장애        Sum
+  매우.많음              0.03227749  0.06538785 0.03716047
+  약간.받고.있음         0.29474298  0.51596251 0.32736752
+  별로.받지.못하고.있음  0.51880629  0.33153648 0.49118851
+  전혀.받지.못하고.있음  0.15417324  0.08711316 0.14428350
+  Sum                    1.00000000  1.00000000 1.00000000</code></pre>
+</div>
+</div>
+<hr>
+<p><br>
+대분류로 구분된 만족도의 합계와 그에 대한 비중을 구하고<br>
+<br>
+총 249566380개의 응답에서 신체적 장애와 관련된 응답은 212761426개이고, 정신적 장애와 관련된 응답은 36804954개이다.<br>
+<strong>신체적 장애</strong> 응답 중 <strong>부정적인 답변</strong>(‘별로.받지.못하고.있음’과 ’전혀.받지.못하고.있음’)은 143184141(110382080 + 32802061)개로<br>
+비율로는 약 <strong>67%</strong>이다.<br>
+<br>
+<strong>정신적 장애</strong> 응답 중 <strong>부정적인 답변</strong>은 15408374개이고 약 <strong>42%</strong>이다.<br>
+반면에 ’매우.많음’의 경우에는 신체적 장애가 약 3%, <strong>정신적 장애</strong>가 약 7%로<br>
+<strong>두 배 이상 긍정적인 답변</strong>한 사실을 알 수 있다.<br>
+<br>
+<strong>따라서 신체적 장애의 부정적인 응답의 비중이 정신적 장애의 부정적인 응답의 비중보다 높다.</strong><br>
+</p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Welfare_files/figure-html/box7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<p>이를 그래프로 시각화하면 다음과 같다.</p>
+<p>이 차이가 유의미한지 파악하기 위해 독립성검정을 해보자.</p>
+<hr>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  data_by_big
+X-squared = 88345, df = 3, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>독립성검정</strong><br>
+검정 결과p-값이 유의수준 0.05에 비해서 매우 작으므로<br>
+<strong>대분류에 따른 정부 보조 만족도과 관계가 없다</strong>는 귀무가설을 <strong>기각</strong>할 수 있다.<br>
+<br>
+</p>
+<hr>
+</section>
+<section id="중분류와-만족도-간의-카이제곱-분석" class="level4">
+<h4 class="anchored" data-anchor-id="중분류와-만족도-간의-카이제곱-분석">2.2 중분류와 만족도 간의 카이제곱 분석</h4>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                       장애유형
+만족도               신체내부.장애 신체외부.장애 발달.장애 정신장애
+  매우.많음                      8167         60507     13206    10860
+  약간.받고.있음                48390        578709    142291    30252
+  별로.받지.못하고.있음         43564       1060255     91770     8242
+  전혀.받지.못하고.있음         12774        315247     23820    47609</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                       장애유형
+만족도               신체내부.장애 신체외부.장애 발달.장애 정신장애     Sum
+  매우.많음                      8167         60507     13206    10860   92740
+  약간.받고.있음                48390        578709    142291    30252  799642
+  별로.받지.못하고.있음         43564       1060255     91770     8242 1203831
+  전혀.받지.못하고.있음         12774        315247     23820    47609  399450
+  Sum                          112895       2014718    271087    96963 2495663</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       장애유형
+만족도               신체내부.장애 신체외부.장애  발달.장애  정신장애
+  매우.많음                0.07234156    0.03003249 0.04871499 0.1120015
+  약간.받고.있음           0.42862837    0.28724070 0.52489053 0.3119953
+  별로.받지.못하고.있음    0.38588069    0.52625479 0.33852601 0.0850015
+  전혀.받지.못하고.있음    0.11314939    0.15647202 0.08786847 0.4910017
+  Sum                      1.00000000    1.00000000 1.00000000 1.0000000
+                       장애유형
+만족도                      Sum
+  매우.많음             0.03716047
+  약간.받고.있음        0.32041265
+  별로.받지.못하고.있음 0.48236921
+  전혀.받지.못하고.있음 0.16005767
+  Sum                   1.00000000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Welfare_files/figure-html/box11_1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>chisq.text() 함수를 이용하여 독립성검정을 수행</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  data_by_mid
+X-squared = 199027, df = 9, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<hr>
+<p>중분류의 경우 시각적으로 ’신체외부.장애’가 다른 장애 분류와 비교해서<br>
+부정적인 응답을 한 비중이 높다는 것을 알 수 있으며<br>
+검정 결과 p-값이 유의수준 0.05에 비해서 매우 작으므로<br>
+<strong>중분류에 따른 정부 보조 만족도과 관계가 없다</strong>는 귀무가설을 기각할 수 있다.<br>
+</p>
+<hr>
+</section>
+</section>
+<section id="요인분석" class="level2">
+<h2 class="anchored" data-anchor-id="요인분석">3. <strong>요인분석</strong></h2>
+<p><strong>왜 이런 결과가 나올까?</strong></p>
+<p>통계청에서 추가적인 데이터를 분석하여</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Welfare_files/figure-html/box14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<p>신체 외부 장애의 경우, 지체 장애 유형이 대부분을 차지하며<br>
+</p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Welfare_files/figure-html/box15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<p>지체 장애인들이 장애로 인한 추가적인 지출로 직접적인 의료비가 주요한 걸 알 수 있다.<br>
+</p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Welfare_files/figure-html/box16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<p>그러나 지체 장애인의 상황과 달리 정부 지원은 직접적인 의료 관련 복지가 미흡함을 알 수 있다.<br>
+</p>
+<hr>
+<hr>
+<section id="결론" class="level3">
+<h3 class="anchored" data-anchor-id="결론"><strong>결론</strong></h3>
+<p>따라서 <strong>‘장애인은 장애 유형과 관계없이 복지에 대해 불만족이다.’</strong><br>
+라는 일반적인 생각과는 달리<br>
+신체적 장애, 그 중에서도 <strong>지체장애</strong>의 경우 유의미하게 더 <strong>불만족</strong>이 심하고<br>
+이는 지체 장애인이 주로 원하는 지원이 <strong>의료비 지원</strong>인 반면<br>
+실제 지원은 <strong>미흡</strong>하다는 사실 때문이라 생각할 수 있다.</p>
+<hr>
+<section id="자료출처" class="level6">
+<h6 class="anchored" data-anchor-id="자료출처">자료출처</h6>
+</section>
+<section id="통계청-httpskostat.go.krportalkoreaindex.action" class="level6">
+<h6 class="anchored" data-anchor-id="통계청-httpskostat.go.krportalkoreaindex.action">통계청 : https://kostat.go.kr/portal/korea/index.action</h6>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
